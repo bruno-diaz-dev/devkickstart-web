@@ -55,7 +55,7 @@ export default function LoginForm() {
           onChange={(e) =>
             setUsername(e.target.value)
           }
-          className="border border-gray-300 p-2 mr-2 rounded w-64"
+          className="border border-gray-950 p-2 mr-2 rounded w-64"
         />
 
         <button
