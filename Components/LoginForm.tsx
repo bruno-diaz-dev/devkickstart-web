@@ -1,13 +1,13 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 export default function LoginForm() {
   const router = useRouter();
-  const [username, setUsername] = useState("");
-
-  const [token, setToken] = useState("");
+  const [username, setUsername] =
+    useState("");
+  const [password, setPassword] =
+    useState("");
 
   async function handleSubmit(
     event: React.FormEvent
@@ -25,60 +25,82 @@ export default function LoginForm() {
 
         body: JSON.stringify({
           username,
+          password,
         }),
       }
     );
 
-    const data = await response.json();
+    if (!response.ok) {
+      alert("Usuario o password incorrectos.");
+      return;
+    }
 
-    setToken(data.token);
+    const data = await response.json();
 
     localStorage.setItem(
       "token",
       data.token
     );
+
     router.push("/dashboard");
   }
 
   return (
-    <div className="mb-10">
-
-      <form
-        onSubmit={handleSubmit}
-        className="mb-4"
-      >
-
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(e) =>
-            setUsername(e.target.value)
-          }
-          className="border border-gray-950 p-2 mr-2 rounded w-64"
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4"
+    >
+      <input
+        type="text"
+        placeholder="Username"
+        value={username}
+        onChange={(e) =>
+          setUsername(e.target.value)
+        }
+        className="
+          border
+          border-gray-700
+          bg-gray-900
+          text-white
+          p-3
+          rounded-lg
+          w-full
+          "
         />
 
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-600 transition  text-white px-4 py-2 rounded"
-        >
-          Login
-        </button>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
+          className="
+            border
+            border-gray-700
+            bg-gray-900
+            text-white
+            p-3
+            rounded-lg
+            w-full
+            "
+          />
 
-      </form>
-
-      {token && (
-        <div>
-          <p className="font-bold mb-2">
-            Token:
-          </p>
-
-          <p className="break-all text-sm">
-            {token}
-          </p>
-        </div>
-      )}
-
-    </div>
+          <button
+            type="submit"
+            className="
+              bg-blue-500
+              hover:bg-blue-600
+              text-white
+              px-4
+              py-3
+              rounded-lg
+              transition
+              w-full
+              "
+            >
+              Login
+            </button>
+    </form>
   );
 }
