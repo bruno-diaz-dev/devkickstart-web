@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
@@ -27,7 +27,7 @@ export default function RegisterPage() {
                 },
 
                 body: JSON.stringify({
-                    nombre: username,
+                    username,
                     password,
                 }),
             }
@@ -55,7 +55,7 @@ export default function RegisterPage() {
         >
         <div className="
           bg-gray-900
-          p=8
+          p-8
           rounded-2xl
           shadow
           w-full

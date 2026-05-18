@@ -1,17 +1,61 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 
 import { useRouter } from "next/navigation";
+
+type Nota={
+  id: string,
+  titulo: string,
+  contenido: string;
+}
 
 export default function DashboardPage() {
 
   const router = useRouter();
 
+  const [notas, setNotas] =
+      useState<Nota[]>([]);
+
+  function crearNota() {
+    router.push("/notes/create")
+  }
+
   function logout() {
     localStorage.removeItem("token");
     router.push("/login");
   }
+
+  async function cargarNotas(){
+    const token =
+        localStorage.getItem(
+          "token"
+        );
+
+    const response = await fetch(
+      "http://localhost:5119/api/notas",
+      {
+        headers:{
+          Authorization:
+              `Bearer ${token}`
+        }
+      }
+    );
+    if(!response.ok) {
+      return;
+    }
+
+    const data =
+        await response.json();
+
+    setNotas(
+      data.slice(-3).reverse()
+    );
+  }
+
+  useEffect(()=>{
+    cargarNotas();
+  },[]);
 
   useEffect(() => {
 
@@ -118,7 +162,8 @@ export default function DashboardPage() {
 
           <div className="flex gap-4">
 
-            <button className="
+            <button onClick={crearNota}
+            className="
               bg-blue-500
               hover:bg-blue-600
               px-4
@@ -161,9 +206,39 @@ export default function DashboardPage() {
             Recent Notes
           </h2>
 
-          <p className="text-gray-400">
-            Aún no tienes notas.
-          </p>
+          <div className="space-y-3">
+            {notas.length === 0 ? (
+              <p className="text-gray-400">
+                Aún no tienes notas.
+              </p>
+            ) : (
+              notas.map((nota) => (
+                <div
+                  key={nota.id}
+                  className="
+                    bg-gray-800
+                    rounded-xl
+                    p-4
+                  "
+                >
+                  <h3 className="
+                    font-bold
+                    text-white
+                  ">
+                    {nota.titulo}
+                  </h3>
+
+                  <p className="
+                  text-gray-400
+                  truncate
+                  mt-2
+                ">
+                  {nota.contenido}
+                </p>
+                </div>
+              ))
+            )}
+          </div>
 
         </div>
 
@@ -183,7 +258,7 @@ export default function DashboardPage() {
           </h2>
 
           <p className="text-gray-400">
-            0 notas creadas.
+            {notas.length} notas recientes cargadas.
           </p>
 
         </div>
