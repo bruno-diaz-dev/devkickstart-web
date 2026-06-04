@@ -71,6 +71,34 @@ Autor: Copilot (acciones ejecutadas desde la sesión)
 (Entradas antiguas siguen abajo)
 
 
+### 2026-06-04 - Frontend: arreglar errores de ESLint en useEffect y tipado
+
+Repo/scope: `/Users/brucie/devkickstart-web`
+
+Cambios:
+- Modificado: `app/(workspace)/dashboard/page.tsx` — `cargarNotas()` envuelta en IIFE async con bandera `mounted`.
+- Modificado: `app/(workspace)/notes/page.tsx` — misma corrección para `cargarNotas()`.
+- Modificado: `app/(workspace)/notes/[id]/page.tsx` — tipado explícito de la respuesta: `Nota[]`.
+
+Por qué:
+- ESLint (regla `react-hooks/set-state-in-effect`) fallaba al invocar `setState` sincrónicamente dentro de un `useEffect`, lo que puede provocar renders en cascada.
+- `@typescript-eslint/no-explicit-any` detectó usos de `any` que reducen seguridad de tipos.
+
+Cómo funciona ahora:
+- Las llamadas API se realizan en una IIFE async dentro del efecto y usan una bandera `mounted` para evitar `setState` después del unmount.
+- Las respuestas se tipan explícitamente como `Nota[]` para eliminar `any` y mejorar chequeo de tipos.
+
+Validación:
+- Ejecutar: `npm run lint` (debe pasar)
+- Ejecutar: `npm run build` (comprobación adicional)
+
+Enlaces:
+- PR: (ver PR creado)
+- Commit: (sha generado al commitear)
+
+Autor: Copilot (acciones desde la sesión)
+
+
 ## 2026-06-04
 
 ### Frontend: preparar configuracion de API por entorno

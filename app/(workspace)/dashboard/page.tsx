@@ -3,6 +3,7 @@
 import { useEffect,useState } from "react";
 
 import { useRouter } from "next/navigation";
+import { apiRequest } from "@/lib/api";
 
 type Nota={
   id: string,
@@ -26,36 +27,19 @@ export default function DashboardPage() {
     router.push("/login");
   }
 
-  async function cargarNotas(){
-    const token =
-        localStorage.getItem(
-          "token"
-        );
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      const token = localStorage.getItem("token");
+      const response = await apiRequest("/api/notas", { token });
+      if (!response.ok) return;
+      const data = await response.json();
+      if (!mounted) return;
+      setNotas(data.slice(-3).reverse());
+    })();
 
-    const response = await fetch(
-      "http://localhost:5119/api/notas",
-      {
-        headers:{
-          Authorization:
-              `Bearer ${token}`
-        }
-      }
-    );
-    if(!response.ok) {
-      return;
-    }
-
-    const data =
-        await response.json();
-
-    setNotas(
-      data.slice(-3).reverse()
-    );
-  }
-
-  useEffect(()=>{
-    cargarNotas();
-  },[]);
+    return () => { mounted = false; };
+  }, []);
 
   useEffect(() => {
 
@@ -65,7 +49,7 @@ export default function DashboardPage() {
       router.push("/login");
     }
 
-  }, []);
+  }, [router]);
 
   return (
     <div>

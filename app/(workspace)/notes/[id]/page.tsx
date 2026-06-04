@@ -2,6 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { apiRequest } from "@/lib/api";
+
+type Nota = {
+    id: string;
+    titulo: string;
+    contenido: string;
+};
 
 export default function EditNotePage() {
     const params = useParams();
@@ -16,12 +23,10 @@ export default function EditNotePage() {
         const cargarNota= async () => {
             const token = localStorage.getItem("token");
 
-            const response = await fetch(
-                `http://localhost:5119/api/Notas`,
+            const response = await apiRequest(
+                "/api/Notas",
                 {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                    token,
                 }
             );
 
@@ -30,10 +35,10 @@ export default function EditNotePage() {
                 return;
             }
 
-            const notas = await response.json();
+            const notas = await response.json() as Nota[];
 
             const nota = notas.find(
-                (n: any) => n.id === id
+                (nota) => nota.id === id
             );
 
             if (!nota) {
@@ -51,14 +56,14 @@ export default function EditNotePage() {
     const actualizarNota = async () => {
         const token = localStorage.getItem("token");
 
-        const response = await fetch(
-            `http://localhost:5119/api/Notas/${id}`,
+        const response = await apiRequest(
+            `/api/Notas/${id}`,
             {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`,
                 },
+                token,
 
                 body: JSON.stringify({
                     titulo,
