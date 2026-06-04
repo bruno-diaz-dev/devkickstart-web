@@ -31,6 +31,43 @@ Autor: <nombre>
 
 ---
 
+Resumen de cambios recientes (entradas automáticas añadidas):
+
+---
+### 2026-06-04 - CI y documentación para Copilot
+
+Repo/scope: `/Users/brucie/devkickstart-web`
+
+Cambios:
+- Se agregó `.github/copilot-instructions.md` con instrucciones para sesiones Copilot (build/lint, arquitectura, convenciones).
+- Se creó `.github/workflows/ci.yml` (workflow de CI) que ejecuta `npm ci`, `npm run lint` y `npm run build` en push/PR.
+- Se actualizó el workflow para ejecutar en una matriz de Node.js: 18 y 20.
+- Se creó la plantilla `CHANGELOG_WORKLOG.md` y se añadió guía para registrar cambios.
+- Branches/PRs creados: `ci/add-github-actions-1780600798` (PR #1), `chore/add-changelog-1780601325` (PR #2).
+
+Por qué:
+- Tener CI que valide build y lint en PRs detecta problemas temprano.
+- Documentar instrucciones para Copilot mejora consistencia en futuras sesiones.
+- Registrar cambios con plantillas facilita auditoría y comunicación entre colaboradores.
+
+Cómo funciona ahora:
+- CI: en cada push/PR a main (o master) se ejecutan jobs en Node 18 y 20 que instalan dependencias, lint y build.
+- Copilot instructions: archivo en `.github/copilot-instructions.md` debe ser consultado por asistentes automáticos.
+- CHANGELOG_WORKLOG.md contiene plantilla y se actualizará con entradas manuales o automáticas por cada cambio significativo.
+
+Validación:
+- PRs abiertos: https://github.com/bruno-diaz-dev/devkickstart-web/pull/1, https://github.com/bruno-diaz-dev/devkickstart-web/pull/2
+- Branches locales/remotos: `ci/add-github-actions-1780600798`, `chore/add-changelog-1780601325`
+- Comandos a ejecutar localmente: `npm run lint`, `npm run build`.
+
+Enlaces:
+- PR CI: https://github.com/bruno-diaz-dev/devkickstart-web/pull/1
+- PR Changelog: https://github.com/bruno-diaz-dev/devkickstart-web/pull/2
+
+Autor: Copilot (acciones ejecutadas desde la sesión)
+
+---
+
 (Entradas antiguas siguen abajo)
 
 
