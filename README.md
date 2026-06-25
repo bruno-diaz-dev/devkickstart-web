@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevKickstart Web
 
-## Getting Started
+Frontend web de DevKickstart construido con Next.js, React, TypeScript y Tailwind CSS.
 
-First, run the development server:
+## Requisitos
+
+- Node.js compatible con Next.js 16
+- npm
+- Backend de DevKickstart disponible por HTTP
+
+## Configuracion Local
+
+1. Copia el archivo de ejemplo:
+
+```bash
+cp .env.example .env.local
+```
+
+2. Ajusta la URL del backend en `.env.local`:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5119
+```
+
+3. Instala dependencias y levanta el servidor:
+
+```bash
+npm install
+npm run dev
+```
+
+La app queda disponible en `http://localhost:3000`.
+
+## Scripts
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run build
+npm run start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deploy en Vercel
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Vercel puede desplegar este proyecto como una app Next.js sin Dockerfile. El proyecto usa el comando de build estandar:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+Configura esta variable de entorno en Vercel:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+NEXT_PUBLIC_API_URL=https://tu-backend-dev.example.com
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Puntos importantes:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- No uses `http://localhost:5119` en Vercel. Debe ser una URL publica accesible desde el navegador.
+- Define `NEXT_PUBLIC_API_URL` al menos en el entorno `Preview` para probar ramas y PRs.
+- Como `NEXT_PUBLIC_API_URL` se incluye en el bundle del cliente durante `next build`, cada entorno de Vercel debe tener su propio valor antes de compilar.
 
-## Deploy on Vercel
+## Estructura
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/`: rutas y layouts de Next.js App Router.
+- `Components/`: componentes reutilizables de UI.
+- `lib/api.ts`: helper central para construir requests al backend.
+- `.env.example`: variables necesarias para configurar la app.

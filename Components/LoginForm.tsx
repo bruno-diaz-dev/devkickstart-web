@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { apiRequest } from "@/lib/api";
 export default function LoginForm() {
   const router = useRouter();
   const [username, setUsername] =
@@ -14,8 +15,8 @@ export default function LoginForm() {
   ) {
     event.preventDefault();
 
-    const response = await fetch(
-      "http://localhost:5119/api/auth/login",
+    const response = await apiRequest(
+      "/api/auth/login",
       {
         method: "POST",
 

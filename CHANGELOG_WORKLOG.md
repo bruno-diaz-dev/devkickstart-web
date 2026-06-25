@@ -34,6 +34,41 @@ Autor: <nombre>
 Resumen de cambios recientes (entradas automáticas añadidas):
 
 ---
+### 2026-06-25 - Preparar commits de deploy dev
+
+Repo/scope: `/Users/brucie/devkickstart-web` y `/Users/brucie/DevKickstart.Api`
+
+Cambios:
+- Se revisó el estado actual de ambos repos antes de preparar commits.
+- Se validó el frontend con `npm run lint` y `npm run build`.
+- Se validó la API con `dotnet build /Users/brucie/DevKickstart.Api/DevKickstart.Api.csproj`.
+- Se validaron los tests .NET con `dotnet test /Users/brucie/DevKickstart.sln`.
+- Se confirmó que el build de frontend requiere red para descargar fuentes Geist desde Google Fonts.
+
+Por qué:
+- Antes de desplegar en Vercel/API hosting conviene dejar commits separados y verificables.
+- La validación evita publicar una configuración de entorno incompleta o rota.
+
+Cómo funciona ahora:
+- El frontend usa `NEXT_PUBLIC_API_URL` para apuntar al backend.
+- La API queda preparada para leer Redis, JWT secret, CORS y puerto desde configuración/env vars.
+- Los siguientes pasos son crear commits, publicar ramas/PRs y desplegar primero la API dev.
+
+Validación:
+- `npm run lint`: pasó.
+- `npm run build`: pasó con acceso de red para Google Fonts.
+- `dotnet build /Users/brucie/DevKickstart.Api/DevKickstart.Api.csproj`: pasó.
+- `dotnet test /Users/brucie/DevKickstart.sln`: pasó. Nota: actualmente solo hay 1 test vacío.
+
+Enlaces:
+- PR frontend: https://github.com/bruno-diaz-dev/devkickstart-web/pull/3
+- PR API: https://github.com/bruno-diaz-dev/DevKickstart.Api/pull/1
+- Commit frontend: `08caa7a`
+- Commit API: `4fbe938`
+
+Autor: Codex
+
+---
 ### 2026-06-04 - CI y documentación para Copilot
 
 Repo/scope: `/Users/brucie/devkickstart-web`
@@ -69,6 +104,34 @@ Autor: Copilot (acciones ejecutadas desde la sesión)
 ---
 
 (Entradas antiguas siguen abajo)
+
+
+### 2026-06-04 - Frontend: arreglar errores de ESLint en useEffect y tipado
+
+Repo/scope: `/Users/brucie/devkickstart-web`
+
+Cambios:
+- Modificado: `app/(workspace)/dashboard/page.tsx` — `cargarNotas()` envuelta en IIFE async con bandera `mounted`.
+- Modificado: `app/(workspace)/notes/page.tsx` — misma corrección para `cargarNotas()`.
+- Modificado: `app/(workspace)/notes/[id]/page.tsx` — tipado explícito de la respuesta: `Nota[]`.
+
+Por qué:
+- ESLint (regla `react-hooks/set-state-in-effect`) fallaba al invocar `setState` sincrónicamente dentro de un `useEffect`, lo que puede provocar renders en cascada.
+- `@typescript-eslint/no-explicit-any` detectó usos de `any` que reducen seguridad de tipos.
+
+Cómo funciona ahora:
+- Las llamadas API se realizan en una IIFE async dentro del efecto y usan una bandera `mounted` para evitar `setState` después del unmount.
+- Las respuestas se tipan explícitamente como `Nota[]` para eliminar `any` y mejorar chequeo de tipos.
+
+Validación:
+- Ejecutar: `npm run lint` (debe pasar)
+- Ejecutar: `npm run build` (comprobación adicional)
+
+Enlaces:
+- PR: (ver PR creado)
+- Commit: (sha generado al commitear)
+
+Autor: Copilot (acciones desde la sesión)
 
 
 ## 2026-06-04

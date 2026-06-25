@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { apiRequest } from "@/lib/api";
 
 type Nota = {
     id: string;
@@ -13,35 +14,20 @@ export default function NotesPage() {
     const [notas, setNotas] =
       useState<Nota[]>([]);
     
-    async function cargarNotas() {
-        const token =
-          localStorage.getItem("token");
-
-        const response = await fetch(
-            "http://localhost:5119/api/notas",
-            {
-                headers: {
-                    Authorization:
-                      `Bearer ${token}`,
-                },
-            }
-        );
-
-        if (!response.ok) {
-            console.log(
-                "Error cargando notas"
-            );
-            return;
-        }
-
-        const data =
-          await response.json();
-
-        setNotas(data);
-    }
-
     useEffect(() => {
-        cargarNotas();
+        let mounted = true;
+        (async () => {
+            const token = localStorage.getItem("token");
+            const response = await apiRequest("/api/notas", { token });
+            if (!response.ok) {
+                console.log("Error cargando notas");
+                return;
+            }
+            const data = await response.json();
+            if (!mounted) return;
+            setNotas(data);
+        })();
+        return () => { mounted = false; };
     }, []);
 
     return (

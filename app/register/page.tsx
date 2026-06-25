@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { apiRequest } from "@/lib/api";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -17,8 +18,8 @@ export default function RegisterPage() {
     ) {
         event.preventDefault();
 
-        const response = await fetch(
-            "http://localhost:5119/api/auth/register",
+        const response = await apiRequest(
+            "/api/auth/register",
             {
                 method: "POST",
 
