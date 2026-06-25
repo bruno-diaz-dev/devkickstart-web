@@ -62,7 +62,8 @@ Validación:
 
 Enlaces:
 - PR: pendiente
-- Commit: pendiente
+- Commit frontend: `08caa7a`
+- Commit API: `4fbe938`
 
 Autor: Codex
 
