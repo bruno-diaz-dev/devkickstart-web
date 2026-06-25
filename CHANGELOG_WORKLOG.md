@@ -64,7 +64,6 @@ Enlaces:
 - PR frontend: https://github.com/bruno-diaz-dev/devkickstart-web/pull/3
 - PR API: https://github.com/bruno-diaz-dev/DevKickstart.Api/pull/1
 - Commit frontend: `08caa7a`
-- Commit worklog: `b0944fc`
 - Commit API: `4fbe938`
 
 Autor: Codex
