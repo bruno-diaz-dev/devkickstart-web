@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { apiRequest } from "@/lib/api";
 
 type Props = {
     onUserCreated: () => Promise<void>;
@@ -13,7 +14,7 @@ export default function CreateUserForm({ onUserCreated }: Props) {
     ) {
         event.preventDefault();
 
-        await fetch("http://localhost:5119/api/usuarios", {
+        await apiRequest("/api/usuarios", {
             method: "POST",
 
             headers: {

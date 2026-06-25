@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { apiRequest } from "@/lib/api";
 
 export default function CreateNotePage() {
 
@@ -19,17 +20,15 @@ export default function CreateNotePage() {
           localStorage.getItem("token");
 
         const response =
-          await fetch(
-            "http://localhost:5119/api/notas",
+          await apiRequest(
+            "/api/notas",
             {
                 method:"POST",
 
                 headers:{
                     "Content-Type":"application/json",
-
-                    Authorization:
-                        `Bearer ${token}`
                 },
+                token,
                 body:JSON.stringify({
                     titulo,
                     contenido

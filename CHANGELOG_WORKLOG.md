@@ -34,6 +34,39 @@ Autor: <nombre>
 Resumen de cambios recientes (entradas automáticas añadidas):
 
 ---
+### 2026-06-25 - Preparar commits de deploy dev
+
+Repo/scope: `/Users/brucie/devkickstart-web` y `/Users/brucie/DevKickstart.Api`
+
+Cambios:
+- Se revisó el estado actual de ambos repos antes de preparar commits.
+- Se validó el frontend con `npm run lint` y `npm run build`.
+- Se validó la API con `dotnet build /Users/brucie/DevKickstart.Api/DevKickstart.Api.csproj`.
+- Se validaron los tests .NET con `dotnet test /Users/brucie/DevKickstart.sln`.
+- Se confirmó que el build de frontend requiere red para descargar fuentes Geist desde Google Fonts.
+
+Por qué:
+- Antes de desplegar en Vercel/API hosting conviene dejar commits separados y verificables.
+- La validación evita publicar una configuración de entorno incompleta o rota.
+
+Cómo funciona ahora:
+- El frontend usa `NEXT_PUBLIC_API_URL` para apuntar al backend.
+- La API queda preparada para leer Redis, JWT secret, CORS y puerto desde configuración/env vars.
+- Los siguientes pasos son crear commits, publicar ramas/PRs y desplegar primero la API dev.
+
+Validación:
+- `npm run lint`: pasó.
+- `npm run build`: pasó con acceso de red para Google Fonts.
+- `dotnet build /Users/brucie/DevKickstart.Api/DevKickstart.Api.csproj`: pasó.
+- `dotnet test /Users/brucie/DevKickstart.sln`: pasó. Nota: actualmente solo hay 1 test vacío.
+
+Enlaces:
+- PR: pendiente
+- Commit: pendiente
+
+Autor: Codex
+
+---
 ### 2026-06-04 - CI y documentación para Copilot
 
 Repo/scope: `/Users/brucie/devkickstart-web`
